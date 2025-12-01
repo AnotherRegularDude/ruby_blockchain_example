@@ -5,6 +5,11 @@ ruby File.read(File.join(__dir__, ".ruby-version")).rstrip
 
 gem "zeitwerk"
 
+gem "dry-initializer"
+gem "dry-struct"
+gem "dry-types"
+gem "resol", git: "https://github.com/umbrellio/resol", branch: "feature/add-dry-initializer"
+
 group :development, :test do
   gem "pry"
   gem "rspec"
