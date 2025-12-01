@@ -4,11 +4,16 @@ class Case::Blockchain::Validate < Case::Base
   param :blockchain, Types.Instance(Entity::Blockchain)
 
   def call
-    valid = blockchain.blocks[1..].all? do |block|
-      previous_block = blockchain.blocks[block.index - 1]
+    return success!(true) if blockchain.blocks.size <= 1
+
+    success!(process_validation)
+  end
+
+  private
+
+  def process_validation
+    blockchain.blocks.each_cons(2).all? do |previous_block, block|
       block.previous_hash == previous_block.block_hash && block.block_hash.start_with?("0" * blockchain.difficulty)
     end
-
-    success!(valid)
   end
 end
