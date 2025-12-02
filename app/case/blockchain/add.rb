@@ -2,7 +2,7 @@
 
 class Case::Blockchain::Add < Case::Base
   param :blockchain, Types.Instance(Entity::Blockchain)
-  param :data, Types::Array
+  param :data, Types::Array.of(Types.Instance(Entity::Transaction))
 
   def call
     self.block = create_block!

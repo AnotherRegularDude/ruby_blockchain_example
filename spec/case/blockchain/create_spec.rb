@@ -19,7 +19,8 @@ describe Case::Blockchain::Create do
       # Проверки генезис-блока
       expect(genesis_block.index).to eq(0)
       expect(genesis_block.previous_hash).to eq("0" * 64)
-      expect(genesis_block.data).to eq(["Initial block"])
+      expect(genesis_block.data).to be_a(Array)
+      expect(genesis_block.data.first).to be_a(Entity::Transaction)
       expect(genesis_block.block_hash).to start_with("0" * difficulty)
       expect(genesis_block.nonce).to be_an(Integer)
       expect(genesis_block.timestamp).to be_a(Integer)

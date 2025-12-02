@@ -11,9 +11,26 @@ class Case::Blockchain::Validate < Case::Base
 
   private
 
+  attr_accessor :previous_block, :block
+
   def process_validation
     blockchain.blocks.each_cons(2).all? do |previous_block, block|
-      block.previous_hash == previous_block.block_hash && block.block_hash.start_with?("0" * blockchain.difficulty)
+      self.previous_block = previous_block
+      self.block = block
+
+      valid_previous_hash? && valid_difficulty? && valid_current_hash?
     end
+  end
+
+  def valid_previous_hash?
+    block.previous_hash == previous_block.block_hash
+  end
+
+  def valid_current_hash?
+    block.calculate_hash == block.block_hash
+  end
+
+  def valid_difficulty?
+    block.block_hash.start_with?("0" * blockchain.difficulty)
   end
 end

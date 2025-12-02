@@ -14,4 +14,6 @@ group :development, :test do
   gem "pry"
   gem "rspec"
   gem "rubocop", require: false
+  gem "simplecov", require: false
+  gem "simplecov-lcov", require: false
 end

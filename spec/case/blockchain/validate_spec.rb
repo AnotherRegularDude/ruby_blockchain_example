@@ -8,11 +8,14 @@ describe Case::Blockchain::Validate do
   subject(:result) { run! }
 
   let(:difficulty) { 1 }
-  let(:genesis_block) { Entity::Block.build_genesis(difficulty) }
+  let(:genesis_block) { Case::Block::CreateGenesis.call!(difficulty) }
   let(:blockchain) { Entity::Blockchain.new(blocks: [genesis_block], difficulty:) }
 
+  let(:input) { Value::Transaction::Input.new(transaction_id: "0" * 64, output_index: 0) }
+  let(:output) { Value::Transaction::Output.new(address: "some_wallet_address", amount: BigDecimal("0.1")) }
+  let(:transaction) { Entity::Transaction.build([input], [output]) }
   let(:timestamp) { Time.now.utc.to_i }
-  let(:new_block_data) { ["Transaction data"] }
+  let(:new_block_data) { [transaction] }
 
   context "with valid blockchain" do
     before { Case::Blockchain::Add.call!(blockchain, new_block_data) }
@@ -55,6 +58,18 @@ describe Case::Blockchain::Validate do
     let(:difficulty) { 4 }
 
     it "returns false for blockchain with block not meeting difficulty requirement" do
+      expect(result).to be_success
+      expect(result.value!).to eq(false)
+    end
+  end
+
+  context "with tampered block data" do
+    before do
+      Case::Blockchain::Add.call!(blockchain, new_block_data)
+      allow(blockchain.blocks.last.data.first).to receive(:to_s).and_return("invalid id")
+    end
+
+    it "returns false for block with tampered data" do
       expect(result).to be_success
       expect(result.value!).to eq(false)
     end

@@ -7,11 +7,7 @@ class Entity::Block < Entity::Base
   attribute :nonce, Types::Integer.default(0)
   attribute :block_hash, Types::String.optional.default(nil)
 
-  attribute :data, Types::Array
-
-  def self.build_genesis(difficulty)
-    new(index: 0, previous_hash: "0" * 64, timestamp: Time.now.utc.to_i, data: ["Initial block"]).mine!(difficulty)
-  end
+  attribute :data, Types::Array.of(Types.Instance(Entity::Transaction))
 
   def mine!(difficulty)
     self.block_hash = loop do
@@ -23,8 +19,6 @@ class Entity::Block < Entity::Base
 
     self
   end
-
-  private
 
   def calculate_hash
     Digest::SHA256.hexdigest([index, previous_hash, timestamp, data.join, nonce].join("|"))
