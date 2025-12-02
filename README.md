@@ -1,6 +1,6 @@
 # Ruby Blockchain Example
 [![CI](https://github.com/AnotherRegularDude/ruby_blockchain_example/actions/workflows/ci.yml/badge.svg)](https://github.com/AnotherRegularDude/ruby_blockchain_example/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/AnotherRegularDude/ruby_blockchain_example/badge.svg?branch=main)](https://coveralls.io/github/AnotherRegularDude/ruby_blockchain_example?branch=main)
+[![Coverage Status](https://img.shields.io/coveralls/github/AnotherRegularDude/ruby_blockchain_example?branch=main)](https://coveralls.io/github/AnotherRegularDude/ruby_blockchain_example?branch=main)
 
 Educational implementation of core blockchain primitives in Ruby: blocks, transactions, proof-of-work difficulty, chain validation, and service objects.
 
