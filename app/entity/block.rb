@@ -4,11 +4,10 @@ class Entity::Block < Entity::Base
   attribute :index, Types::Integer
   attribute :previous_hash, Types::String
   attribute :timestamp, Types::Integer
-
-  attribute :data, Types::Array
-
   attribute :nonce, Types::Integer.default(0)
   attribute :block_hash, Types::String.optional.default(nil)
+
+  attribute :data, Types::Array
 
   def self.build_genesis(difficulty)
     new(index: 0, previous_hash: "0" * 64, timestamp: Time.now.utc.to_i, data: ["Initial block"]).mine!(difficulty)
