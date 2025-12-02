@@ -4,10 +4,6 @@ class Entity::Blockchain < Entity::Base
   attribute :blocks, Types::Array.of(Types.Instance(Entity::Block))
   attribute :difficulty, Types::Integer
 
-  def self.build(genesis_block, **)
-    new(blocks: [genesis_block], **)
-  end
-
   def last_index
     blocks.last.index
   end
